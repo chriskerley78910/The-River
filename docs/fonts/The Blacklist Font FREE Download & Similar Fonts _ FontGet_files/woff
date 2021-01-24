@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'font-42115';
+    font-style: normal;
+    font-weight: normal;
+    src: url('https://dl.fontget.com/t/h/the-blacklist/woff_src/The Blacklist.woff?token=Pye81Uwm1THebJSU7kSIDw&expires=1611377615') format('woff');
+}
+
+.css-font-42115 {
+    font-family: 'font-42115';
+}
+
+ 
+    .css-font-42115-59902 {
+        font-family: 'font-42115';
+    }
