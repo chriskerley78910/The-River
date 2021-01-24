@@ -8,13 +8,20 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "test"
+    "test": "test",
+    "start":"node ./src/backend/server.js"
   },
   "author": "Chris Kerley",
   "license": "ISC",
   "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "html-webpack-plugin": "^4.5.1",
     "lodash": "^4.17.20",
+    "mysql": "^2.18.1",
     "style-loader": "^2.0.0",
     "vue": "^2.6.12",
     "vue-loader": "^15.9.6",
@@ -22,6 +29,8 @@
     "webpack": "^5.17.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "webpack-cli": "^4.4.0"
   }
 }

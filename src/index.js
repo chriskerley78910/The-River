@@ -1,18 +1,10 @@
 import _ from 'lodash';
 import './style.css'
 import Logo from './logo.png'
+import Vue from 'vue'
+import Root from './root.vue'
 
-
-
-function component() {
-  const element = document.createElement('div');
-
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  element.classList.add('hello')
-  const myLogo = new Image();
-  myLogo.src = Logo;
-  element.appendChild(myLogo)
-  return element;
-}
-
-document.body.appendChild(component());
+var app = new Vue({
+  el: '#app',
+  render:handle => handle(Root)
+})
