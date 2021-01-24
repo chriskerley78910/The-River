@@ -1,0 +1,14 @@
+How much does a photos novelty affect their perceived value?
+
+objective function is to maximize the users photo viewing time per photo over 
+the course of a single viewing session.
+
+
+Measured by interaction.
+
+dependant variable: The amount of time the user spends looking at the photos per day.
+continous output
+
+independant variable: The novelty of the photo.  i.e When was the last time you saw this photo?
+domain is between 0 (you just saw it) and infinity (you have never seen it)
+
