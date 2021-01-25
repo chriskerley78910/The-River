@@ -1,4 +1,3 @@
-import Logo from './logo.png'
 import Vue from 'vue'
 import Root from './root.vue'
 import LoginScreen from './login-screen.vue'

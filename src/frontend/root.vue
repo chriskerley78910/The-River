@@ -11,7 +11,7 @@ const PhotoViewer = require('./photo-viewer.vue').default
 export default {
     data:function(){
       return {
-        loggedIn:false
+        loggedIn:false,
       }
     },
     components:{

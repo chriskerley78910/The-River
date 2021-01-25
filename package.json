@@ -58,6 +58,7 @@
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.1",
     "jest": "^26.5.3",
+    "jest-transform-stub": "^2.0.0",
     "jsdoc": "^3.6.6",
     "mini-css-extract-plugin": "^1.0.0",
     "mocha": "^8.1.3",

@@ -16,7 +16,7 @@ module.exports = {
   // specifies that .js files must be transformed using babel-jest, and vue files must be transformed using vue-jest
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest'
+    '.*\\.(vue)$': 'vue-jest',
+    ".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "jest-transform-stub"
   },
-
 }

@@ -17,4 +17,11 @@ describe('login-screen', ()=>{
   it('loggedIn == false by default', ()=>{
     expect(sut.vm.loggedIn).toBe(false)
   })
+
+  it('loginUser(user) => fetch(/login, user)', ()=>{
+    const user = {}
+    global.fetch = jest.fn()
+    sut.vm.loginUser(user)
+    expect(fetch).toHaveBeenCalledWith('/login', expect.any(Object))
+  })
 })
