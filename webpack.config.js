@@ -3,11 +3,16 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/frontend/index.js',
   mode:'development',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.esm.js'
+    }
   },
   module:{
     rules:[

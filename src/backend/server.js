@@ -2,22 +2,35 @@ const fs = require('fs')
 const port = 3000;
 const express = require('express');
 const app = express();
-const mysql = require('mysql')
+
 const htmlPath = __dirname + '/../../dist'
 const photoDir = __dirname + '/../../photos'
-
+const DB = require('./DatabaseAccessObject')
 app.use(express.static(htmlPath));
 app.use(express.static(photoDir))
 
-const getConnection = () =>{
-  return mysql.createConnection({
-    host:'localhost',
-    user:'chris',
-    password:'devpassword',
-    database:'river'
-  });
-}
 
+
+// Fisher Yates Shuffle
+// O(n) randomized shuffle of images.
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 const insertPhotos = ()=>{
   let getAllPhotosSQL =  `INSERT INTO photos (filename) VALUES `
@@ -26,37 +39,10 @@ const insertPhotos = ()=>{
   const sql = getAllPhotosSQL.slice(0, -1)
 }
 
-const getPhotosFileNamesSQL = ()=>{
-  return `SELECT * from photos`
-}
-
-const getPhotosFileNames = () =>{
-  return new Promise((resolve, reject)=>{
-    const con = getConnection()
-    con.connect(function(err) {
-      if (err){
-        con.end()
-        throw err
-      }
-      con.query(getPhotosFileNamesSQL(), function (err, results) {
-        if (err) throw err;
-        con.end()
-        resolve(results)
-      });
-    });
-  })
-}
-
-const prefixDirectory = (filenames) =>{
-  const join  = (obj) =>{
-    obj.filename = `${photoDir}/${obj.filename}`
-    return obj
-  }
-  return filenames.map(join)
-}
 
 app.get('/photos', async (req, res) => {
-  const filenames = await getPhotosFileNames()
+  const filenames = await DB.getPhotoFileNames()
+  shuffle(filenames)
   res.json(filenames)
 })
 
