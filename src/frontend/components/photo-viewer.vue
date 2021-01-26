@@ -1,6 +1,6 @@
 <template>
-  <div id="photo-list" v-if='photos.length > 0'>
-    <div class='photo-holder' v-for="p in photos" :key="p.id">
+  <div id="photo-list" >
+    <div class='photo-holder' v-if='photos.length > 0 && loggedIn' v-for="p in photos" :key="p.id">
       <img class='photo' v-bind:src="'/' + p.filename" />
     </div>
   </div>
@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  props:['loggedIn'],
   data: function(){
     return {
       photos:[]

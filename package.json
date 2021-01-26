@@ -7,7 +7,7 @@
     "test:unit": "vue-cli-service test:unit",
     "build": "webpack",
     "test": "jest",
-    "start": "node ./src/backend/server.js"
+    "start": "node ./src/backend/start.js"
   },
   "author": "Chris Kerley",
   "license": "ISC",

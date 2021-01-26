@@ -1,7 +1,6 @@
 const mysql = require('mysql')
 class DB {
 
-
   static getConnection(){
     const con = mysql.createConnection({
       host:'localhost',
@@ -34,6 +33,18 @@ class DB {
         });
       })
     })
+  }
+
+  static async getSubjects(){
+    const sql =  DB.getSubjectsSQL()
+    return await DB.query(sql)
+  }
+
+  static getSubjectsSQL(){
+    return `SELECT id, first, last
+            FROM users u
+            INNER JOIN subjects e
+            WHERE u.id = e.user_id`
   }
 
   static async getPhotoFileNames(){

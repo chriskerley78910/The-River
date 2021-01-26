@@ -1,22 +1,19 @@
 import {shallowMount, createLocalVue } from '@vue/test-utils'
-import LoginScreen from './../../src/frontend/login-screen.vue'
+import Users from './../../../src/frontend/components/users.vue'
 
 let sut
 const localVue = createLocalVue()
 const setup = () =>{
-  sut = shallowMount(LoginScreen,{
+  sut = shallowMount(Users,{
     propsData:{
-      loggedIn:false
+      subjects:[]
     },
     localVue
   })
 }
 
-describe('login-screen', ()=>{
+describe('users', ()=>{
   beforeEach(setup)
-  it('loggedIn == false by default', ()=>{
-    expect(sut.vm.loggedIn).toBe(false)
-  })
 
   it('loginUser(user) => fetch(/login, user)', ()=>{
     const user = {}

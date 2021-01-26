@@ -1,7 +1,5 @@
 import Vue from 'vue'
-import Root from './root.vue'
-import LoginScreen from './login-screen.vue'
-import PhotoViewer from './photo-viewer.vue'
+import Root from './components/root.vue'
 
 var app = new Vue({
   el: '#app',

@@ -1,5 +1,5 @@
 import {shallowMount, createLocalVue } from '@vue/test-utils'
-import Root from './../../src/frontend/root.vue'
+import Root from './../../../src/frontend/components/root.vue'
 
 let sut
 const localVue = createLocalVue()
