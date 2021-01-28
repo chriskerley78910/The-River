@@ -30,6 +30,13 @@ app.get('/subjects', async(req, res)=>{
   res.json(subjects)
 })
 
+app.get('/login', async (req, res) =>{
+
+  const token = Date.now()
+  const id = req.params.id
+  const user = await DB.getUserById()
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

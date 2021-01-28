@@ -39,6 +39,7 @@
     "puppeteer": "^5.4.1",
     "regenerator-runtime": "^0.13.7",
     "simple-node-logger": "^18.12.24",
+    "token": "^0.1.0",
     "vua-redux": "^0.6.1",
     "vue": "^2.6.12",
     "vue-router": "^3.4.8",

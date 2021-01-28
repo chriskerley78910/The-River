@@ -31,6 +31,12 @@
   display: flex;
   flex-direction: column;
   margin: 15pt;
+  border: 3pt solid #f2f2f2;
+}
+
+.user:hover{
+  cursor: pointer;
+  border: 3pt solid black;
 }
 
 .smile-holder{
@@ -45,6 +51,7 @@
 <script>
 
 import Smile from './../images/smile.png'
+import User from './../../shared_models/User'
 
 export default{
   props:['subjects'],
@@ -55,15 +62,25 @@ export default{
   },
 
   methods:{
+        async loginUser(user){
+          const options = this.getLoginUserOptions(user)
+          const response = await fetch('/login', options)
+          if(response.ok) await this.updateUserState(response)
+          else alert('Unable to login user.')
+        },
 
-    async loginUser(user){
-      const url = '/login'
-      const options = {
-        method:'POST',
-        body:JSON.stringify(user)
-      }
-      const response = await fetch(url, options)
-    }
+        getLoginUserOptions(user){
+          return {
+            method:'POST',
+            body: JSON.stringify(user)
+          }
+        },
+
+        async updateUserState(response){
+          const obj = await response.json()
+          const user = new User(obj)
+          this.$store.commit('login', user)
+        },
   }
 }
 </script>
