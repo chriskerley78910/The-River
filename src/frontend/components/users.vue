@@ -52,6 +52,7 @@
 
 import Smile from './../images/smile.png'
 import User from './../../shared_models/User'
+import LoginResponse from './../../shared_models/LoginResponse'
 
 export default{
   props:['subjects'],
@@ -63,23 +64,31 @@ export default{
 
   methods:{
         async loginUser(user){
+          console.log(user)
           const options = this.getLoginUserOptions(user)
           const response = await fetch('/login', options)
           if(response.ok) await this.updateUserState(response)
-          else alert('Unable to login user.')
+          else this.handleLoginError(response)
+        },
+
+        async handleLoginError(response){
+          const text = await response.text()
+          console.log(text)
         },
 
         getLoginUserOptions(user){
           return {
             method:'POST',
-            body: JSON.stringify(user)
+            body: JSON.stringify(user),
+            headers: {
+              'Content-Type': 'application/json'
+            }
           }
         },
 
         async updateUserState(response){
           const obj = await response.json()
-          const user = new User(obj)
-          this.$store.commit('login', user)
+          this.$store.commit('login', new LoginResponse(obj))
         },
   }
 }
