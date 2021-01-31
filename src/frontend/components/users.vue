@@ -64,9 +64,12 @@ export default{
 
   methods:{
         async loginUser(user){
-          console.log(user)
           const options = this.getLoginUserOptions(user)
           const response = await fetch('/login', options)
+          this.handleResponse(response)
+        },
+
+        async handleResponse(response){
           if(response.ok) await this.updateUserState(response)
           else this.handleLoginError(response)
         },

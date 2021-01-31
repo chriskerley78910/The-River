@@ -1,6 +1,50 @@
 const mysql = require('mysql')
 class DB {
 
+
+  async getPhoto(){
+    const sql = this.getPhotoSQL()
+    const results = await this.query(sql)
+    return results[0]
+  }
+
+  getPhotoSQL(){
+    return `SELECT
+              id, url
+            FROM
+              photos
+            ORDER BY RAND()
+            LIMIT 1`
+  }
+
+  async updateGetPhotoRecord(sampleId){
+    const sql = `UPDATE
+                    viewing_samples
+                 SET
+                    request_next_timestamp = now()
+                 WHERE
+                    id = ?`
+    const result = this.query(sql,[sampleId])
+    if(result.affectedRows != 1)
+      throw new Error('Something went wrong.')
+  }
+
+  async insertGetPhotoRecord(userId, photoId){
+    if(!userId || !photoId)
+      throw new Error('userId or photoId missing.')
+    const sql = this.insertGetPhotoRecordSQL()
+    const result = await this.query(sql,[userId, photoId])
+    return result.insertId
+  }
+
+
+  insertGetPhotoRecordSQL(){
+    return ` INSERT INTO viewing_samples
+                    (user_id, photo_id)
+                  VALUES
+                    (?,?)`
+  }
+
   async getTimeStamp(insertId){
     this.assertPositiveInteger(insertId)
     const sql = this.getTimeStampSQL()
@@ -54,13 +98,18 @@ class DB {
   }
 
   getConnection(){
-    const con = mysql.createConnection({
+    const obj = this.getConnectionObj()
+    const con = mysql.createConnection(obj);
+    return this.connect(con)
+  }
+
+  getConnectionObj(){
+    return {
       host:'localhost',
       user:'chris',
       password:'devpassword',
       database:'river'
-    });
-    return this.connect(con)
+    }
   }
 
   connect(con){

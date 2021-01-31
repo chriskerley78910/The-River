@@ -11,7 +11,8 @@ const setup = () =>{
 
 describe('root', ()=>{
   beforeEach(setup)
-  it('loggedIn == false by default', ()=>{
-    expect(sut.vm.loggedIn).toBe(false)
+  it('app holder exists', ()=>{
+    const wrapper = sut.find('#app')
+    expect(wrapper.exists()).toBeTruthy()
   })
 })

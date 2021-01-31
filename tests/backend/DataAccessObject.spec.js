@@ -9,6 +9,20 @@ describe('DatabaseAccessObject', ()=>{
     }
     beforeEach(setup)
 
+
+
+    it('insertGetPhotoRecord(userId, photoId)', async ()=>{
+      const insertId = 2
+      const userId = 1
+      const photoId = 3
+      sut.query = () => {
+        return {insertId:insertId}
+      }
+      const actual = await sut.insertGetPhotoRecord(userId, photoId)
+
+      expect(actual).toBe(insertId)
+    })
+
     it('getTimeStamp() == the timestamp for that row', async ()=>{
       const timestamp = new Date()
       sut.query = () => [{timestamp:timestamp}]

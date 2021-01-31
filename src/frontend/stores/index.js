@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+const moduleA = {
 
   state:{
     loginResponse:null
@@ -14,4 +14,9 @@ export const store = new Vuex.Store({
       state.loginResponse = response
     }
   }
-})
+}
+
+
+
+
+export const store = new Vuex.Store(moduleA)

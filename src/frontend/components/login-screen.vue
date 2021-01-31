@@ -1,5 +1,5 @@
 <template>
-  <div id='login-page' v-if='!loggedIn'>
+  <div id='login-page' v-if='isVisible'>
     <div id='logo'>
       <img :src='logo'/>
     </div>
@@ -37,14 +37,17 @@ import Logo from './../images/logo.png'
 import Users from './users.vue'
 
 export default{
-  props:['loggedIn'],
   data:function(){
     return {
       logo:Logo,
       subjects:[]
     }
   },
-
+  computed:{
+    isVisible(){
+      return this.$store.state.loginResponse == null
+    }
+  },
   components:{
     Users
   },

@@ -1,8 +1,6 @@
 <template>
-  <div id="photo-list" >
-    <div class='photo-holder' v-if='photos.length > 0 && loggedIn' v-for="p in photos" :key="p.id">
-      <img class='photo' v-bind:src="'/' + p.filename" />
-    </div>
+  <div id="photo-holder"  v-if='isVisible' @click='getNextPhoto'>
+    <img class='photo' v-bind:src="'/' + photo.getURL()" />
   </div>
 </template>
 <style scoped>
@@ -19,27 +17,63 @@
 </style>
 
 <script>
+
+import Photo from './../../shared_models/Photo'
+
 export default {
-  props:['loggedIn'],
   data: function(){
     return {
-      photos:[]
+      photo:null
+    }
+  },
+  computed:{
+
+    loginResponse(){
+      return this.$store.state.loginResponse
+    },
+
+    isVisible(){
+      return this.loginResponse && this.photo
+    },
+
+    userId(){
+      if(this.loginResponse)
+        return this.loginResponse.getUserId()
+      else
+        return null
     }
   },
   mounted(){
-      this.loadPhotos()
+      this.loadFirstPhoto()
   },
   methods:{
 
-    async loadPhotos(){
-      const response = await fetch('/photos')
-      if(!response.ok) alert('error')
-      else this.appendPhotos(response)
+    async getNextPhoto(){
+      const url = this.getNextPhotoURL()
+      const response = await fetch(url)
+      if(response.ok) this.showPhoto(response)
+      else alert('Something went wrong getting the next photo.')
     },
 
-    async appendPhotos(response){
-      this.photos = await response.json()
+    getNextPhotoURL(){
+      return `/nextPhoto?id=${this.userId}&cur_photo_id=${this.photo.getId()}`
     },
+
+    async loadFirstPhoto(){
+      const url = this.getQueryURL()
+      const response = await fetch(url)
+      if(!response.ok) alert('error')
+      else this.showPhoto(response)
+    },
+
+    getQueryURL(){
+      return `/firstPhoto?id=${this.userId}`
+    },
+
+    async showPhoto(response){
+      const obj = await response.json()
+      this.photo = new Photo(obj)
+    }
   },
 }
 </script>

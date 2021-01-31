@@ -12,6 +12,10 @@ describe('Supervisor', ()=>{
   }
   beforeEach(setup)
 
+  it('setupfork(no args) create a real fork', ()=>{
+    expect(typeof sut.fork).toBe('function')
+  })
+
   it('startServerProcess() forks a child process of the backend server', ()=>{
     sut.initializeCallbacks = jest.fn()
     sut.executePollingCycle = jest.fn()
@@ -46,7 +50,5 @@ describe('Supervisor', ()=>{
     expect(sut.isHeartBeatThere()).toBeFalsy()
   })
 
-  it('setupfork(no args) create a real fork', ()=>{
-    expect(typeof sut.fork).toBe('function')
-  })
+
 })
