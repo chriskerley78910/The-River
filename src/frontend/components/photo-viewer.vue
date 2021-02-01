@@ -43,13 +43,15 @@ export default {
         return null
     }
   },
-  mounted(){
-      // if(this.isVisible) this.loadFirstPhoto()
+
+  watch:{
+      userId(val){
+        if(val) this.loadFirstPhoto()
+      }
   },
   methods:{
 
     async getNextPhoto(){
-      console.log(this.isVisible)
       const url = this.getNextPhotoURL()
       const response = await fetch(url)
       if(response.ok) this.showPhoto(response)

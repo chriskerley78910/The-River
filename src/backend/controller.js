@@ -14,20 +14,21 @@ class Controller {
   }
 
   parsePositiveIntegerProp(obj, name){
-    const val = obj[name]
+    const val = Number(obj[name])
     if(!Number.isInteger(val) || val < 1)
       throw new Error(`${name} must be a positive integer.`)
     return val
   }
 
   async getFirstPhoto(req, res){
-    const userId = this.parsePositiveIntegerProp(req.params,'id')
+    console.log(req.query.id)
+    const userId = this.parsePositiveIntegerProp(req.query,'id')
     const photo = await this.getPhotoSample(userId)
     res.json(photo)
   }
 
   async getNextPhoto(req, res){
-    const sampleId = this.parsePositiveIntegerProp(req.params, 'id')
+    const sampleId = this.parsePositiveIntegerProp(req.query, 'id')
     await this.db.updateGetPhotoRecord(sampleId)
     const userId = await this.db.getSampleUserId(sampleId)
     const photo = await this.getPhotoSample(userId)
@@ -42,7 +43,6 @@ class Controller {
   }
 
   async getSubjects(req, res){
-    console.log('HELLO')
     const subjects = await this.db.getSubjects()
     res.json(subjects)
   }
