@@ -82,10 +82,10 @@ class DB {
   }
 
   getSubjectsSQL(){
-    return `SELECT id, first, last
+    return `SELECT s.id, first, last
             FROM users u
-            INNER JOIN subjects e
-            WHERE u.id = e.user_id`
+            INNER JOIN subjects s
+            WHERE u.id = s.id`
   }
 
   async getPhotoFileNames(){

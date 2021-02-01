@@ -6,38 +6,51 @@ class Controller {
     if(db instanceof DatabaseAccessObject == false)
       throw new Error('db must be an instance of DatabaseAccessObject')
     this.db = db
+    this.login = this.login.bind(this)
+    this.parsePositiveIntegerProp = this.parsePositiveIntegerProp.bind(this)
+    this.getFirstPhoto = this.getFirstPhoto.bind(this)
+    this.getNextPhoto = this.getNextPhoto.bind(this)
+    this.getSubjects = this.getSubjects.bind(this)
   }
 
-  assertPositiveIntegerProp(obj, name){
-    return obj[name]
-  }
-
-  async getNextPhoto(req, res){
-    const curSampleId = req.params.id
-    await db.updateGetPhotoRecord(sampleId)
-    const photo = await db.getPhoto()
-    const nextSampleId = await db.insertGetPhotoRecord(userId, photo.id)
-    photo.id = nextSampleId
-    res.json(photo)
+  parsePositiveIntegerProp(obj, name){
+    const val = obj[name]
+    if(!Number.isInteger(val) || val < 1)
+      throw new Error(`${name} must be a positive integer.`)
+    return val
   }
 
   async getFirstPhoto(req, res){
-    const userId = req.params.id
-    const photo = await db.getPhoto()
-    const sampleId = await db.insertGetPhotoRecord(userId, photo.id)
-    photo.sample_id = sampleId
+    const userId = this.parsePositiveIntegerProp(req.params,'id')
+    const photo = await this.getPhotoSample(userId)
     res.json(photo)
   }
 
+  async getNextPhoto(req, res){
+    const sampleId = this.parsePositiveIntegerProp(req.params, 'id')
+    await this.db.updateGetPhotoRecord(sampleId)
+    const userId = await this.db.getSampleUserId(sampleId)
+    const photo = await this.getPhotoSample(userId)
+    res.json(photo)
+  }
+
+  async getPhotoSample(userId){
+    const photo = await this.db.getPhoto()
+    const sampleId = await this.db.insertGetPhotoRecord(userId, photo.id)
+    photo.sample_id = sampleId
+    return photo
+  }
+
   async getSubjects(req, res){
-    const subjects = await db.getSubjects()
+    console.log('HELLO')
+    const subjects = await this.db.getSubjects()
     res.json(subjects)
   }
 
   async login(req, res){
-    const id = this.assertPositiveIntegerProp(req.body,'id')
-    const insertId = await db.insertUserLogin(id)
-    const timestamp = await db.getTimeStamp(insertId)
+    const id = this.parsePositiveIntegerProp(req.body,'id')
+    const insertId = await this.db.insertUserLogin(id)
+    const timestamp = await this.db.getTimeStamp(insertId)
     const loginResponse = {id:id, timestamp:timestamp}
     res.json(loginResponse)
   }

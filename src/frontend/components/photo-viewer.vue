@@ -44,11 +44,12 @@ export default {
     }
   },
   mounted(){
-      this.loadFirstPhoto()
+      // if(this.isVisible) this.loadFirstPhoto()
   },
   methods:{
 
     async getNextPhoto(){
+      console.log(this.isVisible)
       const url = this.getNextPhotoURL()
       const response = await fetch(url)
       if(response.ok) this.showPhoto(response)

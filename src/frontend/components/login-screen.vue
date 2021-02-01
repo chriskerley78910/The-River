@@ -36,21 +36,25 @@
 import Logo from './../images/logo.png'
 import Users from './users.vue'
 
-export default{
+export default {
+
   data:function(){
     return {
       logo:Logo,
       subjects:[]
     }
   },
+
   computed:{
     isVisible(){
       return this.$store.state.loginResponse == null
     }
   },
+
   components:{
     Users
   },
+
   mounted(){
     this.loadSubjects()
   },
@@ -58,9 +62,33 @@ export default{
   methods:{
 
     async loadSubjects(){
-      const response = await fetch('/subjects')
-      if(response.ok) this.subjects =  await response.json()
-      else alert('Unable to load subjects from the server.')
+        const url = '/subjects'
+        const response = await this.fetch(url)
+        this.handleResponse(response)
+    },
+
+    handleResponse(response){
+      if(response.ok)
+        this.setSubjects(response)
+      else
+        this.handleError(response)
+    },
+
+    async setSubjects(response){
+      this.subjects =  await response.json()
+    },
+
+    async handleError(response){
+        const err = await response.text()
+        alert(err)
+    },
+
+    async fetch(url){
+      try{
+        return await fetch(url)
+      }catch(err){
+        alert(err)
+      }
     },
   }
 }

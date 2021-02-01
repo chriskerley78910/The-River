@@ -4,6 +4,7 @@ const app = express();
 const htmlPath = __dirname + '/../../dist'
 const photoDir = __dirname + '/../../photos'
 const db = new (require('./DatabaseAccessObject'))()
+const controller = new (require('./controller'))(db)
 
 //listen and respond to heartbeat request from supervisor
 process.on('message', (message) => {
@@ -14,6 +15,7 @@ process.on('message', (message) => {
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  process.exit(1)
   // application specific logging, throwing an error, or other logic here
 });
 

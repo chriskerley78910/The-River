@@ -4,9 +4,11 @@ import LoginResponse from './../../../src/shared_models/LoginResponse'
 
 let sut
 const localVue = createLocalVue()
-const setup = () =>{
+const setup = () => {
+
   sut = shallowMount(LoginScreen,{
     mocks:{
+      loadSubjects:jest.fn(),
       $store:{
         state:{
           loginResponse:LoginResponse.getFake()
@@ -18,12 +20,40 @@ const setup = () =>{
 }
 
 describe('login-screen', ()=>{
+
   beforeEach(setup)
 
-  it('loadSubjects() throws if the response is not ok', async ()=>{
-    global.fetch = () => Promise.resolve({ ok: false})
+  it('handleError(response) => alert', async () => {
+    const text = 'error message'
+    const response = {ok:false, text:()=>Promise.resolve(text)}
     window.alert = jest.fn()
+    await sut.vm.handleError(response)
+
+    expect(window.alert).toHaveBeenCalledWith(text)
+  })
+
+
+  it('loadSubjects() => fetch, handleResponse', async()=>{
+    const response = {}
+    sut.vm.fetch = () => Promise.resolve(response)
+    sut.vm.handleResponse = jest.fn()
     await sut.vm.loadSubjects()
-    expect(window.alert).toHaveBeenCalled()
+
+    expect(sut.vm.handleResponse).toHaveBeenCalledWith(response)
+  })
+
+  it('handleResponse(response), ok => setSubjects(response)', async ()=>{
+    sut.vm.setSubjects = jest.fn()
+    const response = {ok:true}
+    await sut.vm.handleResponse(response)
+    expect(sut.vm.setSubjects).toHaveBeenCalledWith(response)
+  })
+
+  it('loadSubjects(response), !ok => handleError(response)', async ()=>{
+    sut.vm.handleError = jest.fn()
+    const obj = {ok:false}
+    sut.vm.fetch = jest.fn(() => Promise.resolve(obj))
+    await sut.vm.loadSubjects()
+    expect(sut.vm.handleError).toHaveBeenCalled()
   })
 })
