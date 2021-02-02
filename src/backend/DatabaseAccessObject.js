@@ -21,12 +21,18 @@ class DB {
     const sql = `UPDATE
                     viewing_samples
                  SET
-                    request_next_timestamp = now()
+                    next_requested_at = now(6)
                  WHERE
                     id = ?`
-    const result = this.query(sql,[sampleId])
+    const result = await this.query(sql,[sampleId])
     if(result.affectedRows != 1)
       throw new Error('Something went wrong.')
+  }
+
+  async getSampleUserId(sampleId){
+    const sql = `SELECT user_id from viewing_samples WHERE id = ?`
+    const results = await this.query(sql, [sampleId])
+    return results[0].user_id
   }
 
   async insertGetPhotoRecord(userId, photoId){

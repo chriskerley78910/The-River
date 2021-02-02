@@ -21,7 +21,7 @@ class Controller {
   }
 
   async getFirstPhoto(req, res){
-    console.log(req.query.id)
+
     const userId = this.parsePositiveIntegerProp(req.query,'id')
     const photo = await this.getPhotoSample(userId)
     res.json(photo)

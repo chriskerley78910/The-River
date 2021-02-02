@@ -7,8 +7,12 @@ const localVue = createLocalVue()
 const setup = () => {
 
   sut = shallowMount(LoginScreen,{
+    data(){
+      return {
+        inTestMode:true,
+      }
+    },
     mocks:{
-      loadSubjects:jest.fn(),
       $store:{
         state:{
           loginResponse:LoginResponse.getFake()

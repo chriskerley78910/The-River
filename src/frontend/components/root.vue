@@ -4,6 +4,11 @@
       <PhotoViewer/>
   </div>
 </template>
+<style scoped>
+  #app{
+      background: black;
+  }
+</style>
 <script>
 // note that .default is needed when using the 'require' syntax.
 const LoginScreen = require('./login-screen.vue').default

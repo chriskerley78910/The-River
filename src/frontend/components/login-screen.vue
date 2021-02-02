@@ -40,6 +40,7 @@ export default {
 
   data:function(){
     return {
+      inTestMode:false,
       logo:Logo,
       subjects:[]
     }
@@ -56,7 +57,8 @@ export default {
   },
 
   mounted(){
-    this.loadSubjects()
+    if(!this.inTestMode)
+      this.loadSubjects()
   },
 
   methods:{

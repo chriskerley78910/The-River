@@ -18,11 +18,12 @@
 
 <script>
 
-import Photo from './../../shared_models/Photo'
+import PhotoSample from './../../shared_models/PhotoSample'
 
 export default {
   data: function(){
     return {
+      inTestingMode:false,
       photo:null
     }
   },
@@ -44,38 +45,45 @@ export default {
     }
   },
 
-  watch:{
-      userId(val){
-        if(val) this.loadFirstPhoto()
+  watch: {
+      userId(){
+        if(!this.inTestingMode)
+          this.getFirstPhoto()
       }
   },
   methods:{
 
+    async getFirstPhoto(){
+      console.log('getting the first hpto.')
+      const url = this.getFirstPhotoURL()
+      const response = await this.fetch(url)
+      if(!response.ok) alert('error')
+      else this.showPhoto(response)
+    },
+
+    getFirstPhotoURL(){
+      return `/firstPhoto?id=${this.userId}`
+    },
+
     async getNextPhoto(){
       const url = this.getNextPhotoURL()
-      const response = await fetch(url)
+      const response = await this.fetch(url)
       if(response.ok) this.showPhoto(response)
       else alert('Something went wrong getting the next photo.')
     },
 
     getNextPhotoURL(){
-      return `/nextPhoto?id=${this.userId}&cur_photo_id=${this.photo.getId()}`
+      return `/nextPhoto?id=${this.photo.getSampleId()}`
     },
 
-    async loadFirstPhoto(){
-      const url = this.getQueryURL()
-      const response = await fetch(url)
-      if(!response.ok) alert('error')
-      else this.showPhoto(response)
-    },
-
-    getQueryURL(){
-      return `/firstPhoto?id=${this.userId}`
-    },
 
     async showPhoto(response){
       const obj = await response.json()
-      this.photo = new Photo(obj)
+      this.photo = new PhotoSample(obj)
+    },
+
+    async fetch(url){
+      return await fetch(url)
     }
   },
 }

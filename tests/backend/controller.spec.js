@@ -13,7 +13,7 @@ describe('Controller', ()=>{
 
   const getFakePhotoRequest = (userId) => {
     return {
-      params:{
+      query:{
         id:1,
       }
     }
@@ -33,13 +33,13 @@ describe('Controller', ()=>{
     sut.db.updateGetPhotoRecord = jest.fn()
     sut.db.getSampleUserId = jest.fn()
     await sut.getNextPhoto(req, res)
-    expect(sut.parsePositiveIntegerProp).toHaveBeenCalledWith(req.params,'id')
+    expect(sut.parsePositiveIntegerProp).toHaveBeenCalledWith(req.query,'id')
   })
 
   it('getFirstPhoto(req, res) throws if the params id is not a positive integer.', async ()=>{
     const req = getFakePhotoRequest()
     const res = getFakePhotoResponse()
-    req.params.id = -1
+    req.query.id = -1
     sut.getPhotoSample = jest.fn()
     await expect(sut.getFirstPhoto(req, res)).rejects.toThrowError('id must be a positive integer.')
   })
