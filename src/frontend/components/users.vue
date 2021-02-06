@@ -53,6 +53,7 @@
 import Smile from './../images/smile.png'
 import User from './../../shared_models/User'
 import LoginResponse from './../../shared_models/LoginResponse'
+import Geolocation from './../utils/Geolocation'
 
 export default{
   props:['subjects'],
@@ -63,8 +64,11 @@ export default{
   },
 
   methods:{
+
         async loginUser(user){
-          const options = this.getLoginUserOptions(user)
+          const location = await Geolocation.getLocation()
+          const data =  {...user, ...location}
+          const options = this.getLoginUserOptions(data)
           const response = await fetch('/login', options)
           this.handleResponse(response)
         },
@@ -79,10 +83,10 @@ export default{
           console.log(text)
         },
 
-        getLoginUserOptions(user){
+        getLoginUserOptions(data){
           return {
             method:'POST',
-            body: JSON.stringify(user),
+            body: JSON.stringify(data),
             headers: {
               'Content-Type': 'application/json'
             }

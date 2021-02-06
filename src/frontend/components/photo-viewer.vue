@@ -1,9 +1,11 @@
 <template>
   <div id="photo-holder"  v-if='isVisible' @click='getNextPhoto'>
     <img class='photo' v-bind:src="'/' + photo.getURL()" />
+    <ControlPanel />
   </div>
 </template>
 <style scoped>
+
 .photo-holder{
   background: black;
 }
@@ -17,7 +19,7 @@
 </style>
 
 <script>
-
+import ControlPanel from './control-panel.vue'
 import PhotoSample from './../../shared_models/PhotoSample'
 
 export default {
@@ -26,6 +28,9 @@ export default {
       inTestingMode:false,
       photo:null
     }
+  },
+  components:{
+    ControlPanel
   },
   computed:{
 
@@ -54,7 +59,6 @@ export default {
   methods:{
 
     async getFirstPhoto(){
-      console.log('getting the first hpto.')
       const url = this.getFirstPhotoURL()
       const response = await this.fetch(url)
       if(!response.ok) alert('error')

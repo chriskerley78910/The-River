@@ -1,5 +1,5 @@
 import DB from './../../src/backend/DatabaseAccessObject'
-
+import LoginRequest from './../../src/backend/models/LoginRequest'
 
 describe('DatabaseAccessObject', ()=>{
 
@@ -41,14 +41,14 @@ describe('DatabaseAccessObject', ()=>{
     it('insertUserLogin(userId) == the insertId', async()=>{
       const insertId = 2
       sut.query = () => Promise.resolve({insertId:insertId})
-      const userId = 3
-      const result = await sut.insertUserLogin(userId)
+      const request = LoginRequest.getFake()
+      const result = await sut.insertUserLogin(request)
       expect(result).toBe(insertId)
     })
 
     it('insertUserLogin(id) throws if id is not a postive integer. ', async ()=>{
       const userId = -1
-      await expect(sut.insertUserLogin(userId)).rejects.toThrowError('userId must be a positive integer.')
+      await expect(sut.insertUserLogin(userId)).rejects.toThrowError('Expected LoginRequest instance.')
     })
 
 })

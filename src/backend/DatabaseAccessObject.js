@@ -1,4 +1,6 @@
 const mysql = require('mysql')
+const LoginRequest  = require('./models/LoginRequest')
+
 class DB {
 
 
@@ -67,19 +69,21 @@ class DB {
               id = ?`
   }
 
-  async insertUserLogin(userId){
-    this.assertPositiveInteger(userId)
+  async insertUserLogin(request){
+    if(request instanceof LoginRequest == false)
+      throw new Error('Expected LoginRequest instance.')
     const sql = this.insertUserLoginSQL()
-    const result = await this.query(sql,[userId])
+    const args = request.getSQLArgs()
+    const result = await this.query(sql, args)
     return result.insertId
   }
 
   insertUserLoginSQL(){
     return `INSERT INTO
               logins
-            (user_id)
+            (user_id, lat, lon)
               VALUES
-            (?)`
+            (?,?,?)`
   }
 
   async getSubjects(){

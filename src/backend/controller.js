@@ -1,4 +1,6 @@
 const DatabaseAccessObject = require('./DatabaseAccessObject')
+const LoginRequest = require('./models/LoginRequest')
+
 
 class Controller {
 
@@ -48,10 +50,10 @@ class Controller {
   }
 
   async login(req, res){
-    const id = this.parsePositiveIntegerProp(req.body,'id')
-    const insertId = await this.db.insertUserLogin(id)
+    const request = new LoginRequest(req)
+    const insertId = await this.db.insertUserLogin(request)
     const timestamp = await this.db.getTimeStamp(insertId)
-    const loginResponse = {id:id, timestamp:timestamp}
+    const loginResponse = {id:request.getUserId(), timestamp:timestamp}
     res.json(loginResponse)
   }
 }
