@@ -41,6 +41,7 @@ class Controller {
     const photo = await this.db.getPhoto()
     const sampleId = await this.db.insertGetPhotoRecord(userId, photo.id)
     photo.sample_id = sampleId
+    photo.users = await this.db.getSelectableUsers()
     return photo
   }
 

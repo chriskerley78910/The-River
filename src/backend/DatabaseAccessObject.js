@@ -19,6 +19,11 @@ class DB {
             LIMIT 1`
   }
 
+  async getSelectableUsers(){
+    const sql = `SELECT
+                    `
+  }
+
   async updateGetPhotoRecord(sampleId){
     const sql = `UPDATE
                     viewing_samples

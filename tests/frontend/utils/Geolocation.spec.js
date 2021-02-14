@@ -9,15 +9,22 @@ import Geolocation from './../../../src/frontend/utils/Geolocation'
           longitude:60.1
         }
       }
+    let sut;
 
     beforeEach(()=>{
-      Geolocation.browserHasGeolocation = jest.fn(()=>true)
-      Geolocation.getCurrentLocation = jest.fn(() => expected)
+      sut = new Geolocation()
+      sut.browserHasGeolocation = jest.fn(()=>true)
+      sut.getNativeGeolocation = jest.fn(() => expected)
+    })
+
+    it('getLocation() throws if geolocation is not supported.', async ()=>{
+      sut.browserHasGeolocation = () => false
+      await expect(sut.getLocation()).rejects.toThrowError('Geolocation is not supported by this browser.')
     })
 
     it('getLocation() == a promise that resolves to the position.', async ()=>{
-      const position = await Geolocation.getLocation()
-      expect(position).toBe(expected.coords)
+      const position = await sut.getLocation()
+      expect(position).toBe(expected)
     })
 
 })

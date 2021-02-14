@@ -1,18 +1,18 @@
 class Geolocation {
 
-  static async getLocation() {
-    if (Geolocation.browserHasGeolocation())
-        return await Geolocation.getNativeGeolocation()
+  async getLocation() {
+    if (this.browserHasGeolocation())
+        return await this.getNativeGeolocation()
     else
       throw new Error("Geolocation is not supported by this browser.")
   }
 
-  static browserHasGeolocation(){
+  browserHasGeolocation(){
     return navigator.geolocation
   }
 
 
-  static getNativeGeolocation(){
+  getNativeGeolocation(){
     return new Promise((resolve, reject) =>{
       navigator.geolocation.getCurrentPosition((position) =>{
         resolve({

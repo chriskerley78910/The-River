@@ -63,10 +63,14 @@ export default{
     }
   },
 
+  mounted(){
+    this.geo = new Geolocation()
+  },
+
   methods:{
 
         async loginUser(user){
-          const location = await Geolocation.getLocation()
+          const location = await this.geo.getLocation()
           const data =  {...user, ...location}
           const options = this.getLoginUserOptions(data)
           const response = await fetch('/login', options)

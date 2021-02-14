@@ -1,5 +1,5 @@
-# River is an experiment showing how how the novelty of photographs
-# effects their value.
+# River is an exploratory app to figure out what factors influence
+# a users viewing pleasure the most.
 
 
 # references

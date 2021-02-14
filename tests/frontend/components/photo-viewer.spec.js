@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import PhotoSample from './../../../src/shared_models/PhotoSample'
+import TaggablePhotoSample from './../../../src/shared_models/TaggablePhotoSample'
 import PhotoViewer from  './../../../src/frontend/components/photo-viewer.vue'
 import LoginResponse from './../../../src/shared_models/LoginResponse'
 
@@ -13,7 +13,7 @@ const setup = () =>{
       }
     },
     mocks:{
-      photo:PhotoSample.getFake(),
+      photo:TaggablePhotoSample.getFake(),
       $store:{
         state:{
           loginResponse:LoginResponse.getFake()
@@ -29,7 +29,7 @@ describe('photo-viewer', ()=>{
 
 
   it('PhotoViewer is isVisible when loggedin and a photo is loaded', async ()=>{
-    sut.vm.photo = PhotoSample.getFake()
+    sut.vm.photo = TaggablePhotoSample.getFake()
     sut.vm.$store.state.loginResponse = LoginResponse.getFake()
     await sut.vm.$nextTick()
     const photo = sut.find('#photo-holder')
@@ -52,10 +52,10 @@ describe('photo-viewer', ()=>{
 
   it('showPhoto(response) wraps the photo', async ()=>{
     const response = {
-      json:() => Promise.resolve(PhotoSample.getRaw())
+      json:() => Promise.resolve(TaggablePhotoSample.getRaw())
     }
     await sut.vm.showPhoto(response)
-    expect(sut.vm.photo instanceof PhotoSample).toBeTruthy()
+    expect(sut.vm.photo instanceof TaggablePhotoSample).toBeTruthy()
   })
 
   it('getFirstPhoto() calls fetch with a url containing the current user id', async ()=>{
@@ -68,7 +68,7 @@ describe('photo-viewer', ()=>{
   })
 
   it('hides everything when loggedIn == false', ()=>{
-    const wrapper = sut.find('.photo-holder')
+    const wrapper = sut.find('#photo-holder')
     expect(wrapper.exists()).toBeFalsy()
   })
 })

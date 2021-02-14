@@ -1,16 +1,17 @@
 <template>
   <div id="photo-holder"  v-if='isVisible' @click='getNextPhoto'>
-    <img class='photo' v-bind:src="'/' + photo.getURL()" />
+    <img id='photo' v-bind:src="'/' + photo.getURL()" />
     <ControlPanel />
+    <FaceLabeler v-bind:photoSample='photo'/>
   </div>
 </template>
 <style scoped>
 
-.photo-holder{
+#photo-holder{
   background: black;
 }
 
-.photo{
+#photo{
   max-width: 100%;
   height: 100vh;
   display: flex;
@@ -19,8 +20,11 @@
 </style>
 
 <script>
+
+import FaceLabeler from './face-labeler.vue'
 import ControlPanel from './control-panel.vue'
-import PhotoSample from './../../shared_models/PhotoSample'
+import TaggablePhotoSample from './../../shared_models/TaggablePhotoSample'
+import Touch from './../utils/Touch'
 
 export default {
   data: function(){
@@ -30,7 +34,12 @@ export default {
     }
   },
   components:{
-    ControlPanel
+    ControlPanel,
+    FaceLabeler
+  },
+
+  mounted(){
+    // const touch = new Touch(document.getElementById('photo-holder'))
   },
   computed:{
 
@@ -58,6 +67,9 @@ export default {
   },
   methods:{
 
+
+
+
     async getFirstPhoto(){
       const url = this.getFirstPhotoURL()
       const response = await this.fetch(url)
@@ -83,7 +95,7 @@ export default {
 
     async showPhoto(response){
       const obj = await response.json()
-      this.photo = new PhotoSample(obj)
+      this.photo = new TaggablePhotoSample(obj)
     },
 
     async fetch(url){
