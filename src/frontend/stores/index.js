@@ -6,12 +6,20 @@ Vue.use(Vuex)
 const moduleA = {
 
   state:{
-    loginResponse:null
+    loginResponse:null,
+    previousPhoto:{},
+    nextPhoto:{}
   },
 
   mutations:{
     login(state, response){
       state.loginResponse = response
+    },
+    previousPhoto(state){
+      state.previousPhoto = {}
+    },
+    nextPhoto(state){
+      state.nextPhoto = {}
     }
   }
 }

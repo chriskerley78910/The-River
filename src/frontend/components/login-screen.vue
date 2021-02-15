@@ -4,7 +4,7 @@
       <img :src='logo'/>
     </div>
     <div id='login-title'>Who's viewing?</div>
-    <Users v-bind:subjects='subjects' />
+    <Subjects v-bind:subjects='subjects' />
   </div>
 </template>
 
@@ -34,7 +34,8 @@
 
 <script>
 import Logo from './../images/logo.png'
-import Users from './users.vue'
+import Subjects from './subjects.vue'
+import Subject from './../../shared_models/Subject'
 
 export default {
 
@@ -53,7 +54,7 @@ export default {
   },
 
   components:{
-    Users
+    Subjects
   },
 
   mounted(){
@@ -64,7 +65,7 @@ export default {
   methods:{
 
     async loadSubjects(){
-        const url = '/subjects'
+        const url = '/api/app:subjects'
         const response = await this.fetch(url)
         this.handleResponse(response)
     },
@@ -77,7 +78,8 @@ export default {
     },
 
     async setSubjects(response){
-      this.subjects =  await response.json()
+      const subjects = await response.json()
+      this.subjects = subjects.map(u => new Subject(u))
     },
 
     async handleError(response){

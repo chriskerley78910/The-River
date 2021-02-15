@@ -1,12 +1,12 @@
 import {shallowMount, createLocalVue } from '@vue/test-utils'
-import Users from './../../../src/frontend/components/users.vue'
-import User from './../../../src/shared_models/User'
+import Subjects from './../../../src/frontend/components/subjects.vue'
+import Subject from './../../../src/shared_models/Subject'
 import Geolocation from './../../../src/frontend/utils/Geolocation'
 
 let sut
 const localVue = createLocalVue()
 const setup = () =>{
-  sut = shallowMount(Users,{
+  sut = shallowMount(Subjects,{
     propsData:{
       subjects:[]
     },
@@ -27,24 +27,24 @@ describe('users', ()=>{
       expect(sut.vm.geo instanceof Geolocation).toBeTruthy()
     })
 
-    it('loginUser => updateUserState(respose)', async ()=>{
+    it('loginSubject => updateSubjectState(respose)', async ()=>{
       const response = { ok: true }
       global.fetch = ()=> Promise.resolve(response)
-      const user = User.getFake()
-      sut.vm.updateUserState = jest.fn()
+      const user = Subject.getFake()
+      sut.vm.updateSubjectState = jest.fn()
       sut.vm.geo.getLocation = jest.fn(() => {})
 
-      await sut.vm.loginUser(user)
-      expect(sut.vm.updateUserState).toHaveBeenCalledWith(response)
+      await sut.vm.loginSubject(user)
+      expect(sut.vm.updateSubjectState).toHaveBeenCalledWith(response)
     })
 
-    it('updateUserState(user) => commit to store.', async ()=>{
-      const rawUser = User.getRaw()
+    it('updateSubjectState(user) => commit to store.', async ()=>{
+      const rawSubject = Subject.getRaw()
       const response = {
           ok:true,
-          json: () => Promise.resolve(rawUser)
+          json: () => Promise.resolve(rawSubject)
       }
-      await sut.vm.updateUserState(response)
+      await sut.vm.updateSubjectState(response)
       expect(sut.vm.$store.commit).toHaveBeenCalledWith('login', expect.any(Object))
     })
 })

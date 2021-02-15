@@ -19,10 +19,7 @@ class DB {
             LIMIT 1`
   }
 
-  async getSelectableUsers(){
-    const sql = `SELECT
-                    `
-  }
+
 
   async updateGetPhotoRecord(sampleId){
     const sql = `UPDATE
@@ -97,7 +94,7 @@ class DB {
   }
 
   getSubjectsSQL(){
-    return `SELECT s.id, first, last
+    return `SELECT s.id, first_name, last_name
             FROM users u
             INNER JOIN subjects s
             WHERE u.id = s.id`

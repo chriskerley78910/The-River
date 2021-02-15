@@ -23,7 +23,6 @@ class Controller {
   }
 
   async getFirstPhoto(req, res){
-
     const userId = this.parsePositiveIntegerProp(req.query,'id')
     const photo = await this.getPhotoSample(userId)
     res.json(photo)
@@ -41,7 +40,6 @@ class Controller {
     const photo = await this.db.getPhoto()
     const sampleId = await this.db.insertGetPhotoRecord(userId, photo.id)
     photo.sample_id = sampleId
-    photo.users = await this.db.getSelectableUsers()
     return photo
   }
 

@@ -1,27 +1,27 @@
 <template>
-  <span class='users'>
-    <span class='user'
-          v-for="user in subjects"
-          :key="user.id"
-          @click='loginUser(user)'>
+  <span class='subjects'>
+    <span class='subject'
+          v-for="subject in subjects"
+          :key="subject.getId()"
+          @click='loginSubject(subject)'>
       <span class='smile-holder'>
           <img :src="smile"/>
       </span>
-      <span class='user-name'>
-           {{ user.first }}
+      <span class='subject-name'>
+           {{ subject.getFirstName() }}
       </span>
     </span>
   </span>
 </template>
 <style scoped>
 
-.users{
+.subjects{
   display: flex;
   justify-content: center;
 }
 
 
-.user{
+.subject{
   width: 200pt;
   height: 200pt;
   background: white;
@@ -34,7 +34,7 @@
   border: 3pt solid #f2f2f2;
 }
 
-.user:hover{
+.subject:hover{
   cursor: pointer;
   border: 3pt solid black;
 }
@@ -43,7 +43,7 @@
     background: #4f4f4f;
 }
 
-.user-name{
+.subject-name{
   font-size: 25pt;
   font-family: sans-serif;
 }
@@ -51,7 +51,7 @@
 <script>
 
 import Smile from './../images/smile.png'
-import User from './../../shared_models/User'
+import Subject from './../../shared_models/Subject'
 import LoginResponse from './../../shared_models/LoginResponse'
 import Geolocation from './../utils/Geolocation'
 
@@ -69,16 +69,16 @@ export default{
 
   methods:{
 
-        async loginUser(user){
+        async loginSubject(subject){
           const location = await this.geo.getLocation()
-          const data =  {...user, ...location}
-          const options = this.getLoginUserOptions(data)
+          const data =  {...subject, ...location}
+          const options = this.getLoginSubjectOptions(data)
           const response = await fetch('/login', options)
           this.handleResponse(response)
         },
 
         async handleResponse(response){
-          if(response.ok) await this.updateUserState(response)
+          if(response.ok) await this.updateSubjectState(response)
           else this.handleLoginError(response)
         },
 
@@ -87,7 +87,7 @@ export default{
           console.log(text)
         },
 
-        getLoginUserOptions(data){
+        getLoginSubjectOptions(data){
           return {
             method:'POST',
             body: JSON.stringify(data),
@@ -97,7 +97,7 @@ export default{
           }
         },
 
-        async updateUserState(response){
+        async updateSubjectState(response){
           const obj = await response.json()
           this.$store.commit('login', new LoginResponse(obj))
         },
