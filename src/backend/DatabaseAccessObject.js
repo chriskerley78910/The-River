@@ -3,7 +3,34 @@ const LoginRequest  = require('./models/LoginRequest')
 
 class DB {
 
+  async createPhotoRecord(){
+    const sql = `INSERT INTO
+                  photos
+                 (url) VALUES ("filler")`
+    const result = await this.query(sql)
+    return result.insertId
+  }
 
+  async storePhotoPath(photoId, relativePath){
+    const sql = `UPDATE
+                    photos
+                 SET
+                    url = ?
+                 WHERE
+                    id = ?`
+    const args = [relativePath, photoId]
+    const result = await this.query(sql,args)
+  }
+
+  async deletePhotoRecord(photoId){
+    const sql = `DELETE FROM
+                    photos
+                 WHERE
+                    id = ?`
+    return await this.query(sql,[photoId])
+  }
+
+  
   async getPhoto(){
     const sql = this.getPhotoSQL()
     const results = await this.query(sql)
@@ -88,15 +115,15 @@ class DB {
             (?,?,?)`
   }
 
-  async getSubjects(){
-    const sql =  this.getSubjectsSQL()
+  async getParticipants(){
+    const sql =  this.getParticipantsSQL()
     return await this.query(sql)
   }
 
-  getSubjectsSQL(){
+  getParticipantsSQL(){
     return `SELECT s.id, first_name, last_name
             FROM users u
-            INNER JOIN subjects s
+            INNER JOIN participants s
             WHERE u.id = s.id`
   }
 

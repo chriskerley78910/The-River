@@ -26,9 +26,10 @@ app.use(express.static(photoDir))
 
 app.get('/nextPhoto',controller.getNextPhoto)
 app.get('/firstPhoto',controller.getFirstPhoto)
-app.get('/subjects',controller.getSubjects)
+app.get('/participants',controller.getParticipants)
 app.post('/login', controller.login)
+app.post('/savePhoto', controller.savePhoto)
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`River node server listening at http://localhost:${port}`)
 })
