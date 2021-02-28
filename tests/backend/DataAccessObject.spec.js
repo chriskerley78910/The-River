@@ -11,6 +11,30 @@ describe('DatabaseAccessObject', ()=>{
 
 
 
+    it('deletePhotoRecord(photoId)', async ()=>{
+      const photoId = 1
+      sut.query = jest.fn()
+      await sut.deletePhotoRecord(photoId)
+      expect(sut.query).toHaveBeenCalledWith(expect.any(String),[photoId])
+    })
+
+    it('storePhotoPath(photoId, relativePath)', async ()=>{
+      sut.query = jest.fn()
+      const relativePath = {}
+      const id = {}
+      sut.storePhotoPath(relativePath, id)
+      await sut.storePhotoPath(relativePath, id)
+
+      expect(sut.query).toHaveBeenCalledWith(expect.any(String), expect.any(Array))
+    })
+
+    it('createPhotoRecord() return the photoId', async () => {
+      const expected = 1
+      sut.query = () => Promise.resolve({insertId:expected})
+      const photoId = await sut.createPhotoRecord()
+      expect(photoId).toBe(expected)
+    })
+
     it('insertGetPhotoRecord(userId, photoId)', async ()=>{
       const insertId = 2
       const userId = 1

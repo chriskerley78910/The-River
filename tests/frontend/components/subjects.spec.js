@@ -1,14 +1,14 @@
 import {shallowMount, createLocalVue } from '@vue/test-utils'
-import Subjects from './../../../src/frontend/components/subjects.vue'
+import Participants from './../../../src/frontend/components/participants.vue'
 import Subject from './../../../src/shared_models/Subject'
 import Geolocation from './../../../src/frontend/utils/Geolocation'
 
 let sut
 const localVue = createLocalVue()
 const setup = () =>{
-  sut = shallowMount(Subjects,{
+  sut = shallowMount(Participants,{
     propsData:{
-      subjects:[]
+      participants:[]
     },
     mocks:{
       $store:{

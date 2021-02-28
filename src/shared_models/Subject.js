@@ -1,3 +1,7 @@
+
+/**
+  Represents a subject in the experiment.
+*/
 class Subject {
 
   constructor(raw){
@@ -18,7 +22,10 @@ class Subject {
   }
 
   setId(raw){
-    this.id = raw['id']
+    const prop = 'id'
+    if(!Number.isInteger(raw[prop]) || raw[prop] < 1)
+      throw new Error(prop + ' must be a positive integer.')
+    this.id = raw[prop]
   }
 
   getId(){
@@ -26,7 +33,10 @@ class Subject {
   }
 
   setFirstName(raw){
-    this.firstName = raw['first_name']
+    const prop = 'first_name'
+    if(typeof raw[prop] != 'string' || raw[prop].length < 1)
+      throw new Error(prop + ' must be a non-empty string.')
+    this.firstName = raw[prop]
   }
 
   getFirstName(){

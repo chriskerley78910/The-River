@@ -2,6 +2,7 @@
   <div id="photo-holder"  v-if='isVisible'>
     <img id='photo' v-bind:src="'/' + photo.getURL()" />
     <ControlPanel />
+    <PhotoUploader />
   </div>
 </template>
 <style scoped>
@@ -21,6 +22,7 @@
 <script>
 
 import ControlPanel from './control-panel.vue'
+import PhotoUploader from './photo-uploader.vue'
 import PhotoSample from './../../shared_models/PhotoSample'
 import Touch from './../utils/Touch'
 
@@ -33,6 +35,7 @@ export default {
   },
   components:{
     ControlPanel,
+    PhotoUploader
   },
 
   mounted(){

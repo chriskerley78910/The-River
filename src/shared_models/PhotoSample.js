@@ -1,5 +1,9 @@
 const AbstractModel = require('./AbstractModel')
 
+/**
+  A single photo object.  It does not hold the photo data,
+  just its unique id number and its relative url on the website.
+*/
 class PhotoSample extends AbstractModel {
 
   constructor(raw){

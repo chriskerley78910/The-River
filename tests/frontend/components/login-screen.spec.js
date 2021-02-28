@@ -37,27 +37,27 @@ describe('login-screen', ()=>{
   })
 
 
-  it('loadSubjects() => fetch, handleResponse', async()=>{
+  it('loadParticipants() => fetch, handleResponse', async()=>{
     const response = {}
     sut.vm.fetch = () => Promise.resolve(response)
     sut.vm.handleResponse = jest.fn()
-    await sut.vm.loadSubjects()
+    await sut.vm.loadParticipants()
 
     expect(sut.vm.handleResponse).toHaveBeenCalledWith(response)
   })
 
-  it('handleResponse(response), ok => setSubjects(response)', async ()=>{
-    sut.vm.setSubjects = jest.fn()
+  it('handleResponse(response), ok => setParticipants(response)', async ()=>{
+    sut.vm.setParticipants = jest.fn()
     const response = {ok:true}
     await sut.vm.handleResponse(response)
-    expect(sut.vm.setSubjects).toHaveBeenCalledWith(response)
+    expect(sut.vm.setParticipants).toHaveBeenCalledWith(response)
   })
 
-  it('loadSubjects(response), !ok => handleError(response)', async ()=>{
+  it('loadParticipants(response), !ok => handleError(response)', async ()=>{
     sut.vm.handleError = jest.fn()
     const obj = {ok:false}
     sut.vm.fetch = jest.fn(() => Promise.resolve(obj))
-    await sut.vm.loadSubjects()
+    await sut.vm.loadParticipants()
     expect(sut.vm.handleError).toHaveBeenCalled()
   })
 })

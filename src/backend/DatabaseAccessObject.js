@@ -30,7 +30,8 @@ class DB {
     return await this.query(sql,[photoId])
   }
 
-  
+
+
   async getPhoto(){
     const sql = this.getPhotoSQL()
     const results = await this.query(sql)

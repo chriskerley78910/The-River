@@ -1,6 +1,6 @@
 const DatabaseAccessObject = require('./DatabaseAccessObject')
 const LoginRequest = require('./models/LoginRequest')
-const photoBasePath = __dirname + '/../../photos'
+
 
 class Controller {
 
@@ -13,8 +13,6 @@ class Controller {
     this.getFirstPhoto = this.getFirstPhoto.bind(this)
     this.getNextPhoto = this.getNextPhoto.bind(this)
     this.getParticipants = this.getParticipants.bind(this)
-    this.savePhoto = this.savePhoto.bind(this)
-    this.drainStream = this.drainStream.bind(this)
   }
 
   parsePositiveIntegerProp(obj, name){
@@ -29,6 +27,7 @@ class Controller {
     const photo = await this.getPhotoSample(userId)
     res.json(photo)
   }
+
 
   async getNextPhoto(req, res){
     const sampleId = this.parsePositiveIntegerProp(req.query, 'id')
@@ -57,49 +56,6 @@ class Controller {
     const loginResponse = {id:request.getUserId(), timestamp:timestamp}
     res.json(loginResponse)
   }
-
-
-  async savePhoto(req, res){
-    let photoId = null
-    try {
-      const data = await this.drainStream(req);
-      photoId = await this.db.createPhotoRecord()
-      const relativePath = await this.storePhoto(data, photoId)
-      this.db.storePhotoPath(photoId, relativePath)
-      res.end()
-    } catch(err) {
-      // console.log(err)
-      if(err.message == photoId)
-        await this.db.deletePhotoRecord(photoId)
-      res.status(500)
-      res.end(err.message)
-    }
-  }
-
-  storePhoto(buffer, photoId){
-    return new Promise((resolve, reject) =>{
-      const fs = require('fs');
-      const relativePath = `${photoId}.jpg`
-      fs.writeFile(photoBasePath + `/${relativePath}` , buffer, err => {
-        if (err) reject(photoId)
-        resolve(relativePath)
-      });
-    })
-  }
-
-  drainStream(stream){
-    return new Promise((resolve, reject) => {
-        let dataParts = [Buffer.alloc(0)];
-        // this is so Buffer.concat doesn’t error if nothing comes;
-        stream.on('data', d => dataParts.push(d));
-        stream.on('error', reject);
-        stream.on('end',() => {
-          resolve(Buffer.concat(dataParts));
-        })
-      });
-  }
-
-
 
 }
 module.exports = Controller

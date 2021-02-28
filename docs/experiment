@@ -4,14 +4,14 @@ Exploring Data
 Variables Recorded
 
 User
-- Who the user is.
-- Current location of the user expressed in latitude and longitude.
+DONE - Who the user is.
+DONE - Current location of the user expressed in latitude and longitude.
 
 Relationships between the user and a photo.
-- Novelty of the photo to the user.
+DONE - Novelty of the photo to the user.
 - Relationship between the user and the people in the photo.
-- When the user viewed the photo.
-- How long the user viewed the photo.
+DONE - When the user viewed the photo.
+DONE - How long the user viewed the photo.
 
 Properties of the photo.
 - Who is in the photo.  (they need to be tagged)
@@ -24,4 +24,5 @@ Response
 
 
 Does order affect value?
+
 Randomized

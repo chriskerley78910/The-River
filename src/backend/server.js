@@ -5,6 +5,7 @@ const htmlPath = __dirname + '/../../dist'
 const photoDir = __dirname + '/../../photos'
 const db = new (require('./DatabaseAccessObject'))()
 const controller = new (require('./controller'))(db)
+const postPhoto = new (require('./controllers/PostPhoto'))(db)
 
 //listen and respond to heartbeat request from supervisor
 process.on('message', (message) => {
@@ -28,7 +29,7 @@ app.get('/nextPhoto',controller.getNextPhoto)
 app.get('/firstPhoto',controller.getFirstPhoto)
 app.get('/participants',controller.getParticipants)
 app.post('/login', controller.login)
-app.post('/savePhoto', controller.savePhoto)
+app.post('/savePhoto', postPhoto.handle)
 
 app.listen(port, () => {
   console.log(`River node server listening at http://localhost:${port}`)

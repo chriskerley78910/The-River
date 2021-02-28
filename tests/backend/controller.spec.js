@@ -26,6 +26,8 @@ describe('Controller', ()=>{
     }
   }
 
+
+
   it('getNextPhoto(req, res) validates the id param', async ()=>{
     const req = getFakePhotoRequest()
     const res = getFakePhotoResponse()

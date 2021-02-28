@@ -3,8 +3,13 @@
     <div id='logo'>
       <img :src='logo'/>
     </div>
-    <div id='login-title'>Who's viewing?</div>
-    <Subjects v-bind:subjects='subjects' />
+    <div class='login-title' v-if='hasParticipants'>
+      Who's viewing?
+    </div>
+    <Participants v-bind:participants='participants' />
+    <div class='login-title' v-if='!hasParticipants'>
+      No participants available.
+    </div>
   </div>
 </template>
 
@@ -21,7 +26,7 @@
   justify-content: space-evenly;
 }
 
-#login-title{
+.login-title{
   color: #484848;
   font-size: 31pt;
   font-family: sans-serif;
@@ -34,7 +39,7 @@
 
 <script>
 import Logo from './../images/logo.png'
-import Subjects from './subjects.vue'
+import Participants from './participants.vue'
 import Subject from './../../shared_models/Subject'
 
 export default {
@@ -43,43 +48,51 @@ export default {
     return {
       inTestMode:false,
       logo:Logo,
-      subjects:[]
+      participants:[]
     }
   },
 
   computed:{
     isVisible(){
       return this.$store.state.loginResponse == null
+    },
+
+    hasParticipants(){
+      return this.participants.length > 0
     }
   },
 
   components:{
-    Subjects
+    Participants
   },
 
   mounted(){
     if(!this.inTestMode)
-      this.loadSubjects()
+      this.loadParticipants()
   },
 
   methods:{
 
-    async loadSubjects(){
-        const url = '/api/app:subjects'
+    async loadParticipants(){
+        const url = '/participants'
         const response = await this.fetch(url)
         this.handleResponse(response)
     },
 
     handleResponse(response){
       if(response.ok)
-        this.setSubjects(response)
+        this.setParticipants(response)
       else
         this.handleError(response)
     },
 
-    async setSubjects(response){
-      const subjects = await response.json()
-      this.subjects = subjects.map(u => new Subject(u))
+    async setParticipants(response){
+      try{
+        const participants = await response.json()
+        this.participants = participants.map(u => new Subject(u))
+      } catch(err){
+        console.log(err)
+      }
     },
 
     async handleError(response){
