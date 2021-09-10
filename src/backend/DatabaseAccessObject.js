@@ -145,10 +145,10 @@ class DB {
 
   getConnectionObj(){
     return {
-      host:'localhost',
-      user:'chris',
-      password:'devpassword',
-      database:'river'
+      host:process.env.DATABASE_HOST,
+      user:process.env.DATABASE_USERNAME,
+      password:process.env.DATABASE_PASS,
+      database:process.env.DATABASE_NAME
     }
   }
 

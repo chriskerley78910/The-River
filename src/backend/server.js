@@ -1,4 +1,5 @@
 const port = 3000;
+require('dotenv').config() // loads all .env variables.
 const express = require('express');
 const app = express();
 const htmlPath = __dirname + '/../../dist'

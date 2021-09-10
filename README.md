@@ -1,6 +1,19 @@
 # River is an exploratory app to figure out what factors influence
 # a users viewing pleasure the most.
 
+## QUICKSTART
+
+Assumes you have the database setup already.
+Navigate to the top directory and type in:
+'npm start'
+then press enter.
+
+### Tools Used:
+Jest
+Webpack
+VueJS 2.6
+MySQL Server
+vue-test-utils -- frontend testing.
 
 # references
 
