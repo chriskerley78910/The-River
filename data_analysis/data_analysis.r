@@ -16,7 +16,8 @@ library(dotenv)
 # Have never seen would be infinite novelty
 # Just seen would be one photo right after another.
 
-load_dot_env(file = "./../.env")
+# meant to be run from the fop level folder.
+load_dot_env(file = ".env")
 db_name = Sys.getenv("DATABASE_NAME")
 db_pass = Sys.getenv("DATABASE_PASS")
 db_host = Sys.getenv("DATABASE_HOST")
@@ -84,9 +85,10 @@ rest_intervals_df$resting_time.numeric = as.numeric(rest_intervals_df$resting_ti
 rest_intervals_df$view_duration.numeric = as.numeric(rest_intervals_df$view_duration)
 
 lm = lm(view_duration.numeric ~ resting_time.numeric, data=rest_intervals_df)
-
+jpeg('./screens/spaced_viewing_effects.jpg')
 plot(rest_intervals_df$resting_time.numeric,
      rest_intervals_df$view_duration.numeric,
-     xlab='Resting Time (Sec)',
-     ylab='Viewing Time (Sec)'
+     xlab='Resting Time Between Repeated Photos (Sec)',
+     ylab='Photo Viewing Time  (Sec)'
      )
+dev.off()

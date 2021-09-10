@@ -33,6 +33,7 @@ then press enter.
 
 # Viewing Analysis
 - Uses R-Studio do statistical analysis on MySQL data.
+- Run *npm run analyze-data* To run analysis of the data.
 
 ![](screens/spaced_viewing_effects.jpg)
 
