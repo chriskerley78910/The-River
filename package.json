@@ -10,7 +10,8 @@
     "start": "pm2 start ./src/backend/server.js",
     "stop": "pm2 stop all",
     "restart": "pm2 restart all",
-    "gen-docs": "jsdoc -r ./src -d ./docs/code_docs"
+    "gen-docs": "jsdoc -r ./src -d ./docs/code_docs",
+    "analyse": "Rscript ./data_analysis/data_analysis.r"
   },
   "author": "Chris Kerley",
   "license": "ISC",
@@ -53,6 +54,7 @@
     "regenerator-runtime": "^0.13.7",
     "request": "^2.88.2",
     "simple-node-logger": "^18.12.24",
+    "slash": "^3.0.0",
     "token": "^0.1.0",
     "typescript": "^3.9.10",
     "vua-redux": "^0.6.1",

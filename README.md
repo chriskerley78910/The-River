@@ -17,6 +17,7 @@ then press enter.
 - Webpack
 - VueJS 2.6
 - MySQL Server
+- R Language
 
 
 
