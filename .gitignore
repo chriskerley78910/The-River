@@ -3,3 +3,4 @@ docs/*
 node_modules
 erlang_modules
 .env
+coverage
