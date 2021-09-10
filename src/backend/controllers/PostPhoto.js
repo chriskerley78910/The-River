@@ -43,7 +43,10 @@ class PostPhoto {
       });
     })
   }
-
+  /**
+    @arg {ReadableStream} stream - The stream of data for the photo to be saved.
+    @return {Promise} - A Promise that resolves to the uploaded photo data.
+  */
   drainStream(stream){
     return new Promise((resolve, reject) => {
         let dataParts = [Buffer.alloc(0)];
